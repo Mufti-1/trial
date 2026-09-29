@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DJANGO_SECRET_KEY
+      - POSTGRES_PASSWORD
+      # Defang automatically injects DATABASE_URL based on the 'db' service
+  
+  db:
+    image: postgres:15
+    x-defang:
+      # This extension tells Defang to provision a managed database
+      type: postgres 
